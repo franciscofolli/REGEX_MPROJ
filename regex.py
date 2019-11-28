@@ -9,20 +9,21 @@ def fStringRead (str):
     return str[:len(str)]
 
 # Function to catch the string and put on a array.
-def array(text):
+def PutArray(text, z): #the parameter must be a string
     a = str(string.ascii_lowercase) #Alfabeto minusculo
     b = str(string.ascii_uppercase) #Alfabeto maiusculo
-    li = []
+    li = [] #Array principal para adição de nomes
     nUltCount = 0
-    z = 0
     for x in range (z, len(text)):
        # if deadcount == 1:
         #    return li
+        input(text[25])
         if text[x] in b:
             li.append(text[x])
             nUltCount = len(li)-1
             d = x
         #input(fStringRead(li[nUltCount]))
+        print(li)
         if text[x] == fStringRead(li[nUltCount]): #irá adicionar as letras minusculas apenas se a ultima letra adicionada na str for maiuscula
             for k in range (d, len(text)): #laço que da continuidade da posição da str
                 nUltCount = len(li)-1
@@ -38,13 +39,16 @@ def array(text):
                             li[nUltCount] = fStringAdd(li[nUltCount], text[k]) #Adicionar espaço
                             nUltCount = len(li)-1
                             break #saindo do comando quando encontrar espaço
-                        if text[k] == ",":
+                        if text[k] == "," or text[k] == "–":
                             z = k
+                            
                             break
-                if text[k] == ",":
-                        break
-        nUltCount = len(li)-1
-    return li
+                if text[k] == "," or text[k] == "–":
+                    break
+            if text[k] == "," or text[k] == "–":
+                    break
+    
+    return li, z
 
 
 
@@ -59,4 +63,16 @@ def array(text):
   
 # Driver Function
 
-print(array("Francisco Abel Alves Mota, Genilda da Silva "))
+print()
+
+liz   = []
+text  = "Francisco Abel Alves Mota, Genilda da Silva "
+count = 0
+for i in range (100):
+    funct = []
+    funct.append(PutArray(text, count))
+    liz.append(funct[0][0])
+    count = funct[0][1]
+    input(count)
+
+
