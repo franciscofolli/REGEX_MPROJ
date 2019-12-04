@@ -2412,11 +2412,14 @@ for i in range (len(text1)-1,-1,-1): #Laço para retirar todas as posições des
     if text1[i] == '' or text1[i] == 'Descrição':
         del(text1[i])
         opo = i
+    elif 'Data - ' in text1[i]:
+        del(text1[i])
+        opo = i
     opo -= 1    
     if "Escritura" in text1[opo]: #Condição que irá adicionar as Escrituras (que tem os nomes) na variável [text]
         text.append(text1[opo])
 del(text1)
-input(text)
+
 for p in range (len(text)): #Loop para apagar tudo que estiver dentro de colchetes
     try:
         text[p] = text[p].replace(text[p][text[p].index("["):text[p].index("]")], "")
@@ -2424,21 +2427,6 @@ for p in range (len(text)): #Loop para apagar tudo que estiver dentro de colchet
         continue
 
 
-count = 0
-for i in range (len(text)):
-    while count != len(text[i])-1:
-        funct = []
-        funct.append(PutArray(text[i], count))
-        liz.append(funct[0][0][0])
-        count = funct[0][1]
-        if text[i][count] == "," or text[i][count] == "–":
-            break
-    count = 0
-input(liz)
-for u in range (len(liz)):
-    aFinalResult[0].append(fTratNome(liz[u])[0])
-    aFinalResult[1].append(fTratNome(liz[u])[1])
-input(aFinalResult)
 
 
 
