@@ -2408,6 +2408,7 @@ Escritura de doação e obrigação de partido de canas que faz Dona Joana de An
 
 text1  = text1.split("\n") # irá dividir todo o texto e transformar a string em lista
 opo = int()
+cod = []
 for i in range (len(text1)-1,-1,-1): #Laço para retirar todas as posições desnecessárias
     if text1[i] == '' or text1[i] == 'Descrição':
         del(text1[i])
@@ -2418,8 +2419,12 @@ for i in range (len(text1)-1,-1,-1): #Laço para retirar todas as posições des
     opo -= 1    
     if "Escritura" in text1[opo]: #Condição que irá adicionar as Escrituras (que tem os nomes) na variável [text]
         text.append(text1[opo])
+    elif 'AN' in text1[opo]:
+        cod.append(text1[opo])
+        del(text[opo])
+        
 del(text1)
-
+input (text)
 for p in range (len(text)): #Loop para apagar tudo que estiver dentro de colchetes
     try:
         text[p] = text[p].replace(text[p][text[p].index("["):text[p].index("]")], "")
