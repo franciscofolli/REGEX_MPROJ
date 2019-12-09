@@ -1,65 +1,20 @@
 # Python3 code to find sequences of one upper 
 # case letter followed by lower case letters
 
+
 #import re 
 import string
+
 # Function to add more values for String
 def fStringAdd(str, word):
     return str[:len(str)] + word + str[len(str):]
 def fStringRead(str):
     return str[:len(str)]
 
-# Function to catch the string and put on a array.
-def PutArray(text, z): #the parameter must be a string
-    a = str(string.ascii_lowercase) #Alfabeto minusculo
-    b = str(string.ascii_uppercase) #Alfabeto maiusculo
-    a = fStringAdd(a, "ãáàâçéèêíìîóòôõúùû")
-    b = fStringAdd(b, "ÃÁÀÂÇÉÈÊÍÌÎÓÒÔÕÚÙÛ")
-    #print(a)
-    #print(b)
-    li = [] #Array principal para adição de nomes
-    nUltCount = 0
-    for x in range (z, len(text)):
-        if text[x] in b:
-            li.append(text[x])
-            nUltCount = len(li)-1
-            d = x
-            #print(li)
-            #print("Esta é a ultima letra do texto ", fStringRead(li[nUltCount]))
-            #print("text[x] ",text[x])
-            if fStringRead(li[nUltCount]) in b: #irá adicionar as letras minusculas apenas se a ultima letra adicionada na str for maiuscula
-                for k in range (x+1, len(text)): #laço que da continuidade da posição da str
-                    nUltCount = len(li)-1
-                    if text[k] != fStringRead(li[nUltCount]):
-                            if text[k] in b:
-                                li[nUltCount] = fStringAdd(li[nUltCount], text[k])
-                                nUltCount = len(li)-1
-                    for minu in range (len(a)): #laço para montar a palavra adicionando as letras minusculas
-                            if text[k] == a[minu]:
-                                li[nUltCount] = fStringAdd(li[nUltCount], text[k])
-                                nUltCount = len(li)-1
-                            if text[k] == " ":
-                                li[nUltCount] = fStringAdd(li[nUltCount], text[k]) #Adicionar espaço
-                                nUltCount = len(li)-1
-                                break #saindo do comando quando encontrar espaço
-                            if text[k] == "–": #Ao chegar aqui significa que chegou ao final de um nome.
-                                zzz = k
-                                break 
-                    if text[k] == "–":
-                        #print("esta é a variavel z ", z)
-                        #print("este é o array da função ", li)
-                        #print("este será o retorno ", zzz)
-                        break
-                if text[k] == "," or text[k] == "–":
-                    break
-            #print("variavel x ", x)
-            zzz = x
-    
-    return li, zzz
-
-def fTratNome (array): #Irá manter apenas os dois nomes de acordo com texto da mari
-    stringss = array
-    if "faz " in stringss:
+def fTratNome (cEsc): #Irá manter apenas os dois nomes de acordo com texto da mari
+    stringss = cEsc
+    #input(cEsc)
+    if "faz " in stringss: #Condições que irá apagar tudo até chegar na palavra "Faz "
         setr = stringss.replace(stringss[:stringss.index("faz ")], "")
     elif "faz a " in stringss:
         setr = stringss.replace(stringss[:stringss.index("faz a ")], "")
@@ -87,19 +42,73 @@ def fTratNome (array): #Irá manter apenas os dois nomes de acordo com texto da 
         setr = stringss.replace(stringss[:stringss.index("fazem a ")], "")
     elif "fazem às " in stringss:
         setr = stringss.replace(stringss[:stringss.index("fazem as ")], "")
+    else:
+        try:
+            setr = stringss.replace(stringss[:stringss.index(" que ")], "")
+        except ValueError:
+            return cEsc
+        
+        
+    #Em seguida apagar os fazem
+    #setr = setr.replace("faz ", "")
+    #setr = setr.replace("fazem o ", "")
 
-    setr = setr.replace("faz ", "")
-    setr = setr.replace("fazem o ", "")
-    if " ao " in setr:
-        setr = setr.split(" ao ")
-    elif " a " in setr:
-        setr = setr.split(" a ")
+    if "faz " in setr: #Condições que irá apagar tudo até chegar na palavra "Faz "
+        setr = setr.replace("faz ", "")
+    elif "faz a " in setr:
+        setr = setr.replace("faz a ", "")
+    elif "faz as " in setr:
+        setr = setr.replace("faz as ", "")
+    elif "faz à " in setr:
+        setr = setr.replace("faz à ", "")
+    elif "faz às " in setr:
+        setr = setr.replace("faz às ", "")
+    elif "faz o " in setr:
+        setr = setr.replace("faz o ", "")
+    elif "faz os " in setr:
+        setr = setr.replace("faz os ", "")
+    elif "fazem " in setr:
+        setr = setr.replace("fazem ", "")
+    elif "fazem o " in setr:
+        setr = setr.replace("fazem o ", "")
+    elif "fazem os " in setr:
+        setr = setr.replace("fazem os ", "")
+    elif "fazem a " in setr:
+        setr = setr.replace("fazem a ", "")
+    elif "fazem as " in setr:
+        setr = setr.replace("fazem as ", "")
+    elif "fazem à " in setr:
+        setr = setr.replace("fazem a ", "")
+    elif "fazem às " in setr:
+        setr = setr.replace("fazem as ", "")
+    else:
+        setr = setr.replace(" que ", "")
+        
+    #input(setr)
+    try:
+        setr = setr.replace(setr[setr.index("–"):len(setr)], "")
+    except ValueError:
+        try:
+            setr = setr.replace(setr[setr.index("no valor de "):len(setr)], "")
+        except ValueError:
+            return cEsc
+        
+    
+    #quebrado nomes de comprador e vendedor em array
+    if "com o" in setr:
+        setr = setr.split("com o")
     elif " à " in setr:
         setr = setr.split(" à ")
-    if "no valor de  réis" in setr[1]:
-        setr[1] = setr[1].replace("no valor de  réis", "")
-
-    return setr
+    elif " a " in setr:
+        setr = setr.split(" a ")
+    elif " ao " in setr:
+        setr = setr.split(" ao ")
+        
+    if "no valor de " in setr[1]:
+        setr[1] = setr[1].replace(setr[1][setr[1].index("no valor de "):len(setr[1])], "")
+    
+    #setr[1] = setr[1].replace(setr[1][setr[1].index("–"):len(setr[1])], "")
+    return setr #Retorna array com um nome em cada posição.
 
 
           #\
@@ -107,8 +116,8 @@ def fTratNome (array): #Irá manter apenas os dois nomes de acordo com texto da 
 # Driver Function
 text = [] #Lista com apenas Escrituras
 AN = [] #Lista de códigos --> será processado outro dia.
-liz   = [] #lista que trará nomes para serem tratados
-aFinalResult = [[],[]] #Lista que irá conter todos os nomes
+#liz   = [] #lista que trará nomes para serem tratados
+aFinalResult = [[],[],[]] #Lista que irá conter todos os nomes
 text1  = """AN, 1ON, 50, p. 15v; AGCRJ, Códice 42-3-56, p. 128
 Data - 1670
 Descrição
@@ -2407,30 +2416,71 @@ Escritura de doação e obrigação de partido de canas que faz Dona Joana de An
 """
 
 text1  = text1.split("\n") # irá dividir todo o texto e transformar a string em lista
-opo = int()
-cod = []
+opo = int() #Contador auxiliar para deletar as posições e não prejudicar o programa.
+cod = [] #Codigo da Escritura
 for i in range (len(text1)-1,-1,-1): #Laço para retirar todas as posições desnecessárias
-    if text1[i] == '' or text1[i] == 'Descrição':
+    if text1[i] == '' or text1[i] == 'Descrição' or text1[i] == ".": #Deleta posições vazias ou com a palavra Descrição
         del(text1[i])
         opo = i
-    elif 'Data - ' in text1[i]:
+    elif 'Data - ' in text1[i]: #Deleta todas as Datas
         del(text1[i])
         opo = i
     opo -= 1    
-    if "Escritura" in text1[opo]: #Condição que irá adicionar as Escrituras (que tem os nomes) na variável [text]
+    if "Escritura" in text1[opo]: #Condição que irá adicionar apenas as Escrituras (que tem os nomes) na variável [text]
         text.append(text1[opo])
     elif 'AN' in text1[opo]:
         cod.append(text1[opo])
-        del(text[opo])
         
-del(text1)
-input (text)
+del(text1) #Deleta variável que pega texto incial
+del(i) #deleta variável contadora do for
+del(opo) #deleta contador auxiliar
+input('array de Escrituras e Códigos separadas')
+
+oCodEsc = open('Códigos.txt', 'w') #Cria TXT
+#oCodEsc = open('Códigos.txt', 'r')
+oCodEsc.write(f'{cod}')
+oCodEsc.close()
+input("codigos colocados em TXT")
+del(cod) #Deleta os Codigos de Escritura
+
+
 for p in range (len(text)): #Loop para apagar tudo que estiver dentro de colchetes
     try:
-        text[p] = text[p].replace(text[p][text[p].index("["):text[p].index("]")], "")
+        text[p] = text[p].replace(text[p][text[p].index("["):text[p].index("]")+2], "")
     except ValueError:
         continue
+del(p)
 
+input('pressione o enter para começar a processar os dados')
+
+#oVend = open('Vendedor.txt', 'w') #Cria TXT
+#oComp = open('Comprador.txt', 'w')
+
+aVend = []
+aComp = []
+aNTrat = []
+for puu in range (len(text)): #Começa a processar e separar nomes 
+    aNomes = fTratNome(text[puu]) 
+    if type(aNomes) == str:
+        aNTrat.append(aNomes)
+    else:
+        aVend.append(aNomes[0])
+        aComp.append(aNomes[1])
+
+#Cria TXT Vendedores
+oVendArq = open('Vendedores.txt', 'w') 
+oVendArq.write(f'{aVend}')
+oVendArq.close()
+
+#Cria TXT Compradores
+oCompArq = open('Compradores.txt', 'w') 
+oCompArq.write(f'{aComp}')
+oCompArq.close()
+
+#Cria TXT de Não tratados
+oNTratArq = open('Não tratados.txt', 'w')
+oNTratArq.write(f'{aNTrat}')
+oNTratArq.close()
 
 
 
